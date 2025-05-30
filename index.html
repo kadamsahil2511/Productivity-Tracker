@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Bubble - Distraction Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <i class="fas fa-bullseye"></i>
+                    Focus Bubble
+                </h1>
+                <p class="app-subtitle">Distraction Tracker</p>
+            </div>
+            <div class="header-controls">
+                <button id="helpBtn" class="icon-btn" title="Help & Instructions">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <button id="themeToggle" class="icon-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Timer Display -->
+            <section class="timer-section">
+                <div class="timer-display">
+                    <span id="timerDisplay" class="timer-text">00:00</span>
+                    <div id="sessionStatus" class="session-status">Ready to Focus</div>
+                </div>
+            </section>
+
+            <!-- Distraction Counter -->
+            <section class="distraction-section">
+                <div class="distraction-counter">
+                    <div class="counter-label">Distractions</div>
+                    <div id="distractionCount" class="counter-value">0</div>
+                </div>
+                <div id="focusStatus" class="focus-status focused">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Focused</span>
+                </div>
+            </section>
+
+            <!-- Control Buttons -->
+            <section class="controls-section">
+                <div class="primary-controls">
+                    <button id="startBtn" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Start Study Session
+                    </button>
+                    <button id="pauseBtn" class="btn btn-secondary" disabled>
+                        <i class="fas fa-pause"></i>
+                        Pause
+                    </button>
+                    <button id="resumeBtn" class="btn btn-success" disabled>
+                        <i class="fas fa-play"></i>
+                        Resume
+                    </button>
+                    <button id="resetBtn" class="btn btn-warning">
+                        <i class="fas fa-stop"></i>
+                        Reset
+                    </button>
+                </div>
+                
+                <div class="secondary-controls">
+                    <button id="clearDataBtn" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                        Clear Data
+                    </button>
+                    <button id="downloadBtn" class="btn btn-info">
+                        <i class="fas fa-download"></i>
+                        Download Data
+                    </button>
+                </div>
+            </section>
+
+            <!-- Audio Controls -->
+            <section class="audio-section">
+                <div class="audio-controls">
+                    <button id="muteBtn" class="icon-btn audio-btn" title="Mute/Unmute">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-control">
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider">
+                        <span id="volumeDisplay" class="volume-display">50%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Panel -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Time</div>
+                        <div id="totalTime" class="stat-value">00:00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Focus Rate</div>
+                        <div id="focusRate" class="stat-value">100%</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Sessions</div>
+                        <div id="sessionCount" class="stat-value">0</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Help Modal -->
+        <div id="helpModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>How to Use Focus Bubble</h2>
+                    <button id="closeHelp" class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h3><i class="fas fa-play-circle"></i> Getting Started</h3>
+                        <p>Click "Start Study Session" to begin tracking your focus time and distractions.</p>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+                        <ul>
+                            <li><kbd>Space</kbd> - Pause/Resume session</li>
+                            <li><kbd>R</kbd> - Reset session</li>
+                            <li><kbd>M</kbd> - Mute/Unmute sounds</li>
+                            <li><kbd>H</kbd> - Show/Hide this help</li>
+                            <li><kbd>T</kbd> - Toggle theme</li>
+                        </ul>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-bullseye"></i> How It Works</h3>
+                        <p>The app tracks when you switch tabs or leave the window, counting them as distractions. Stay focused by keeping this tab active!</p>
+                    </div>
+                    <div class="help-section">
+                        <h3><i class="fas fa-chart-bar"></i> Data Export</h3>
+                        <p>Download your session data as JSON to analyze your productivity patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="distractionAudio" preload="auto">
+        <source src="kyu-nahi-ho-rahi-padhai.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- External Scripts -->
+    <script src="timer.js"></script>
+    <script src="distraction.js"></script>
+    <script src="storage.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
